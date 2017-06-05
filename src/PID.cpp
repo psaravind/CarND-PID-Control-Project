@@ -39,12 +39,12 @@ void PID::UpdateError(double cte) {
 }
 
 double PID::getValue() {
-	double steeringAngle = -p[0] * p_error - p[2] * d_error - p[1] * i_error;
+	double steer = -p[0] * p_error - p[2] * d_error - p[1] * i_error;
 	
-	steeringAngle = steeringAngle < -1 ? -1 : steeringAngle;
-	steeringAngle = steeringAngle >  1 ?  1 : steeringAngle;
+	steer = steer < -1 ? -1 : steer;
+	steer = steer >  1 ?  1 : steer;
 
-	return steeringAngle;
+	return steer;
 }
 
 double PID::TotalError() {
