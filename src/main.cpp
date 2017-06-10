@@ -35,7 +35,7 @@ int main() {
 	//PID throttlePid = PID(.265, .00010069, 0.777906);
 	//PID steeringPid = PID(.1, .0004001, 3.0343);
 
-	h.onMessage([&steeringPid, &throttlePid](uWS::WebSocket<uWS::SERVER> *ws, 
+	h.onMessage([&steeringPid, &throttlePid](uWS::WebSocket<uWS::SERVER> ws, 
 		char *data, 
 		size_t length, 
 		uWS::OpCode opCode) {		  
@@ -69,12 +69,12 @@ int main() {
 					if (throttlePid.getSteps() > 1000) 
 						throttlePid.twiddle();
 
-					(*ws).send(msg.data(), msg.length(), uWS::OpCode::TEXT);
+					ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
 				}
 			} else {
         // Manual driving
 				std::string msg = "42[\"manual\",{}]";
-				(*ws).send(msg.data(), msg.length(), uWS::OpCode::TEXT);
+				ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
 			}
 		}
 	});
@@ -92,12 +92,12 @@ int main() {
 		}
 	});
 
-	h.onConnection([&h](uWS::WebSocket<uWS::SERVER> *ws, uWS::HttpRequest req) {
+	h.onConnection([&h](uWS::WebSocket<uWS::SERVER> ws, uWS::HttpRequest req) {
 		std::cout << "Connected!!!" << std::endl;
 	});
 
-	h.onDisconnection([&h](uWS::WebSocket<uWS::SERVER> *ws, int code, char *message, size_t length) {
-		(*ws).close();
+	h.onDisconnection([&h](uWS::WebSocket<uWS::SERVER> ws, int code, char *message, size_t length) {
+		ws.close();
 		std::cout << "Disconnected" << std::endl;
 	});
 
